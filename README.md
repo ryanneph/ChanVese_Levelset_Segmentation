@@ -1,0 +1,1 @@
+Implementation of the basic Chan-Vese Level Set segmentation model proposed in the paper: ["Active Contours without Edges - Chan, Vese - 2001"](http://ieeexplore.ieee.org/document/902291/) for 2D grayscale image data.
