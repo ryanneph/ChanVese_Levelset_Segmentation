@@ -49,8 +49,8 @@ dt = 0.5              # iteration time step
 eps = 1               # Heaviside/Delta regularizer
 eta = 10e-8           # prevent div-by-0 errors
 
-tol = 10e-3           # stopping criteria
-max_iters = 3        # halting criteria
+tol = 1e-3            # stopping criteria
+max_iters = 20        # halting criteria
 
 #################################################################
 # closures - for shortening lsf update function
@@ -89,6 +89,7 @@ while True:
     c1, c2 = helpers.update_C_reg(I, L, H)
 
     # evolve lsf by one timestep (dt)
+    # only in narrowband
     for i in range(M):
         for j in range(N):
             dtd = dt*D(L[i,j])
@@ -101,17 +102,17 @@ while True:
     if break_loop or save_figs:
         helpers.update_fig_contour(ax, lsf)
         fig_filename = 'iter_{:04d}'.format(iter)
-    err = np.linalg.norm(lsf.ravel() - lsf_n.ravel(), 2)
+    err = np.linalg.norm(lsf.ravel() - lsf_n.ravel(), 2) / (M*N)
     if verbose:
         sys.stdout.write(' || C1: {:7.2f}, C2: {:7.2f}'.format(c1, c2))
         sys.stdout.write(' | cost: {:10.4e}\n'.format(err))
     if err < tol:
-        print('\nfinal cost: {:f}'.format(err))
+        print('\nCONVERGED  final cost: {:f}'.format(err))
         ax.set_title('Convergence after {:d} iters'.format(iter))
         fig_filename += '_convergence'
         break_loop = True
     elif iter >= max_iters:
-        print('\nHALT: exceeded max iterations')
+        print('\nHALT  exceeded max iterations')
         ax.set_title('Early halt after {:d} iters'.format(iter))
         fig_filename += '_earlyhalt'
         break_loop = True
