@@ -72,8 +72,8 @@ lsf = np.zeros(im.shape)
 for x1 in range(lsf.shape[0]):
     for x2 in range(lsf.shape[1]):
         lsf[x1, x2] = math.sin(math.pi/5*x1) * math.sin(math.pi/5*x2)
-I = helpers.BoundsHandler_Mirror(im)
-L = helpers.BoundsHandler_Mirror(lsf)
+I = helpers.BoundsHandler_Clamp(im)
+L = helpers.BoundsHandler_Clamp(lsf)
 
 iter = 0
 break_loop = False
